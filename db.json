@@ -1,0 +1,18 @@
+{
+  "txactions": [
+    {
+      "id": "81c1",
+      "create": "19/11/2025 - 16:14",
+      "type": "income",
+      "amount": 20000,
+      "note": "pel"
+    },
+    {
+      "id": "530a",
+      "create": "19/11/2025 - 16:14",
+      "type": "expense",
+      "amount": 1,
+      "note": "pel"
+    }
+  ]
+}
