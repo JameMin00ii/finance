@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import LoginScreen from "./components/LoginScreen";
+import RegisterScreen from "./components/RegisterScreen";
 import FinanceScreen from "./FinanceScreen";
 import axios from "axios";
 import { Routes, Route, Navigate } from "react-router-dom";
@@ -68,11 +69,14 @@ function App() {
       <Route
         path="/login"
         element={
-          jwt ? (
-            <Navigate to="/" replace />
-          ) : (
-            <LoginScreen onLoginSuccess={handleLoginSuccess} />
-          )
+          jwt ? <Navigate to="/" replace /> : <LoginScreen onLoginSuccess={handleLoginSuccess} />
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          jwt ? <Navigate to="/" replace /> : <RegisterScreen />
         }
       />
 

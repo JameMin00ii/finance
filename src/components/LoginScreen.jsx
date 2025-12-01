@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form, Input, Button, Typography, Alert, Checkbox } from "antd";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -8,7 +9,7 @@ export default function LoginScreen({ onLoginSuccess }) {
   const [loading, setLoading] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
   const [form] = Form.useForm();
-  const remember =  Form.useWatch('remember', form);
+  const remember = Form.useWatch('remember', form);
   console.log('test', remember)
 
   const onFinish = async (values) => {
@@ -66,8 +67,8 @@ export default function LoginScreen({ onLoginSuccess }) {
 
         {/* Remember Me */}
         <Form.Item name="remember" valuePropName="checked" initialValue={true}>
-          <Checkbox style={{ color: "white" }}>จดจำฉัน</Checkbox>
-        </Form.Item>  
+          <Checkbox style={{ color: "white" }}> จดจำฉัน </Checkbox>
+        </Form.Item>
 
         <Form.Item>
           <Button
@@ -79,6 +80,9 @@ export default function LoginScreen({ onLoginSuccess }) {
             เข้าสู่ระบบ
           </Button>
         </Form.Item>
+        <div className="switch-auth">
+          <p>ยังไม่มีบัญชี? <Link to="/register">สมัครสมาชิกที่นี่</Link></p>
+        </div>
       </Form>
     </div>
   );
