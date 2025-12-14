@@ -1,83 +1,83 @@
-import { Button, Table } from "antd";
-import { DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined, EditOutlined } from "@ant-design/icons";
+import { Table, Tag, Space, Button, Popconfirm } from "antd";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import dayjs from "dayjs";
 
-export default function TransactionList({ data, onDelete,onEdit }) {
-
+export default function TransactionList({ data, onNoteChanged, onDelete, onEdit }) {
+  
+  // กำหนดหัวตาราง (Columns)
   const columns = [
     {
-      title: "วันที่",
-      dataIndex: "create",
-      key: "create",
+      title: 'วันที่',
+      dataIndex: 'create', // ต้องตรงกับ key ใน data ที่ส่งมา
+      key: 'create',
+      width: 180,
     },
     {
-      title: "ประเภท",
-      key: "type",
-      dataIndex: "type",
+      title: 'ประเภท',
+      dataIndex: 'type',
+      key: 'type',
+      width: 100,
       render: (type) => (
-        <>
-          {type === "income" ? (
-            <span style={{ color: "green", fontWeight: "bold" }}>
-              <ArrowUpOutlined /> รายรับ
-            </span>
-          ) : (
-            <span style={{ color: "red", fontWeight: "bold" }}>
-              <ArrowDownOutlined /> รายจ่าย
-            </span>
-          )}
-        </>
+        <Tag color={type === "income" ? "green" : "red"}>
+          {type === "income" ? "รายรับ" : "รายจ่าย"}
+        </Tag>
       ),
     },
     {
-      title: "จำนวนเงิน",
-      dataIndex: "amount",
-      key: "amount",
-    },
-    {
-      title: "โน๊ต",
-      dataIndex: "note",
-      key: "note",
-    },
-    {
-      title: "documentId",
-      key: "documentId",
-      dataIndex: "documentId",
-      render: (docId) => (
-        <span style={{ fontSize: "12px", color: "#aaa" }}>{docId}</span>
+      title: 'จำนวนเงิน',
+      dataIndex: 'amount',
+      key: 'amount',
+      align: 'right', // ตัวเลขชิดขวา
+      render: (amount, record) => (
+        <span style={{ color: record.type === "income" ? "green" : "red", fontWeight: "bold" }}>
+          {amount.toLocaleString()}
+        </span>
       ),
     },
     {
-      title: "แก้ไข",
-      key: "action",
-      render: (_, tx) => (
-        <>
-          <Button
-            icon={<EditOutlined />}
-            style={{ marginRight: 8 }}
-            onClick={() => onEdit(tx)}   // ส่งทั้ง record
+      title: 'บันทึกช่วยจำ',
+      dataIndex: 'note',
+      key: 'note',
+    },
+    {
+      title: 'จัดการ',
+      key: 'action',
+      width: 150,
+      render: (_, record) => (
+        <Space size="middle">
+          <Button 
+            type="primary" 
+            icon={<EditOutlined />} 
+            size="small" 
+            onClick={() => onEdit(record)} 
+          />
+          
+          <Popconfirm
+            title="ลบรายการ"
+            description="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => onDelete(record.documentId)}
+            okText="ลบ"
+            cancelText="ยกเลิก"
           >
-          </Button>
-        </>
-      ),
-    },
-    {
-      title: "ลบ",
-      key: "action",
-      render: (_, tx) => (
-        <Button
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => onDelete(tx.documentId)}
-        />
+            <Button 
+              type="primary" 
+              danger 
+              icon={<DeleteOutlined />} 
+              size="small" 
+            />
+          </Popconfirm>
+        </Space>
       ),
     },
   ];
 
   return (
-    <Table
-      rowKey="documentId"
-      columns={columns}
-      dataSource={data}
-      pagination={false}
+    <Table 
+      columns={columns} 
+      dataSource={data} 
+      rowKey="id" 
+      pagination={{ pageSize: 5 }} // แบ่งหน้าละ 5 รายการ
+      bordered
     />
   );
 }

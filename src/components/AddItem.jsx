@@ -1,21 +1,28 @@
 import { Button, Select, Input, InputNumber, Form } from "antd";
-import {PlusOutlined} from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 
 export default function AddItem({ onItemAdd }) {
+  // 1. สร้างตัวแปร form เพื่อควบคุมมัน
+  const [form] = Form.useForm();
 
   const onFinish = (values) => {
     console.log("Form Submitted:", values);
-    // values = { type, amount, note }
-    onItemAdd(values);   // เรียกส่งขึ้นไปให้ App
+    
+    // ส่งข้อมูลไปให้ App (FinanceScreen)
+    onItemAdd(values);
+    
+    // 2. สั่งเคลียร์ช่องกรอกให้ว่าง หลังกดปุ่ม
+    form.resetFields();
   };
 
   return (
-    <Form 
+    <Form
+      form={form} // 3. เชื่อม form กับตัวแปร
       className="add-item-form"
       layout="inline"
       onFinish={onFinish}
     >
-      <Form.Item 
+      <Form.Item
         name="type"
         label="ชนิด"
         rules={[{ required: true, message: "กรุณาเลือกชนิด" }]}
@@ -30,7 +37,7 @@ export default function AddItem({ onItemAdd }) {
         />
       </Form.Item>
 
-      <Form.Item 
+      <Form.Item
         name="amount"
         label="จำนวนเงิน"
         rules={[{ required: true, message: "กรุณากรอกจำนวนเงิน" }]}
@@ -49,7 +56,7 @@ export default function AddItem({ onItemAdd }) {
         <Button type="primary" htmlType="submit" block icon={<PlusOutlined />}>
           เพิ่มรายการ
         </Button>
-      </Form.Item> 
+      </Form.Item>
     </Form>
   );
 }

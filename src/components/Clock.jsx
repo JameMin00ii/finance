@@ -1,4 +1,5 @@
 import { useState, useEffect} from "react";
+
 export default function Clock(props) {
     const [time, setTime] = useState(new Date());
 
@@ -9,7 +10,7 @@ export default function Clock(props) {
     }, []);
     return (
         <h2>
-            ตอนนี้เวลา {time.toLocaleTimeString()} นาฬิกา
+            {time.toLocaleTimeString()}
         </h2>
     )
 }
